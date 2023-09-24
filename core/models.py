@@ -9,3 +9,15 @@ class User(AbstractUser):
     avatar = models.ImageField(null=True, default="avatar.svg")
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+
+class Task(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=250)
+    description = models.TextField(null=True, blank=True)
+    complete = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
