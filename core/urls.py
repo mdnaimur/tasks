@@ -1,12 +1,19 @@
 from django.urls import path
+from django.contrib.auth.views import LogoutView
+from .views import TaskCreate, TaskDetail, TaskList, TaskUpdate, DeleteView, TaskReorder, CustomLoginView, RegisterPage
 from . import views
+# app_name = 'core'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('', views.home, name='home'),
-    path('login/', views.loginPageCustom, name='login'),
-    path('register/', views.registerUser, name='register'),
-    path('update-user/', views.updateUser, name='update-user'),
-    path('logout/', views.logoutUser, name="logout"),
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('register/', RegisterPage.as_view(), name='register'),
 
+
+    path('', TaskList.as_view(), name='tasks'),
+    path('task-create/', TaskCreate.as_view(), name='task-create'),
+    path('task/<int:pk>/', TaskDetail.as_view(), name='task'),
+    path('task-update/<int:pk>/', TaskUpdate.as_view(), name='task-update'),
+    path('task-delete/<int:pk>/', DeleteView.as_view(), name='task-delete'),
+    path('task-reorder/', TaskReorder.as_view(), name='task-reorder'),
 ]
